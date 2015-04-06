@@ -1,69 +1,7 @@
 import random
-
-ROUNDTABLE = "round_table"
-EXCALIBUR = "excalibur"
-HOLYGRAIL = "holy_grail"
-LANCELOT = "lancelot"
-
-
-class Gameboard:
-
-    def __init__(self):
-        self.round_table = RoundTable()
-        self.sieges = 0
-        self.quests = [QuestFactory.Excalibur(),
-                       QuestFactory.HolyGrail(),
-                       QuestFactory.Lancelot()]
-
-    def has_black_sword_majority(self):
-        return self.round_table.black_swords >= 7
-
-    def move(self, knight, position):
-        knight.current_position = position
-
-
-class RoundTable:
-
-    def __init__(self):
-        self.black_swords = 0
-        self.white_swords = 0
-
-    def is_full(self):
-        assert(self.black_swords + self.white_swords < 13)
-        return self.black_swords + self.white_swords == 12
-
-
-class QuestFactory:
-
-    @staticmethod
-    def Excalibur():
-        return DoubleSidedQuest(EXCALIBUR)
-
-    @staticmethod
-    def HolyGrail():
-        return DoubleSidedQuest(HOLYGRAIL)
-
-    @staticmethod
-    def Lancelot():
-        return DoubleSidedQuest(LANCELOT)
-
-
-class Quest:
-
-    def __init__(self, name):
-        self.name = name
-        self.white_card_spots = None
-        self.black_card_spots = None
-        self.is_solo = False
-        self.spoils = None
-        self.punishment = None
-
-
-class DoubleSidedQuest(Quest):
-
-    def __init__(self, name):
-        Quest.__init__(self, name)
-        self.initial_side = True
+from gameboard import Gameboard 
+from knight import Knight
+from constants import *
 
 
 class Deck:
@@ -202,16 +140,6 @@ class Card:
         return self.name + "," + self.color + "," + self.type
 
 
-class Knight:
-
-    def __init__(self, name):
-        self.name = name
-        self.life = 4
-        self.relic = None
-        self.special_power = None
-        self.current_position = None
-        self.cards = []
-
 
 class SpecialPower:
 
@@ -278,6 +206,25 @@ class Game:
             for _ in range(5):
                 knight.cards.append(self.deck.pick_next('white'))
 
+    def play(self):
+        self.start_game()
+        while True:
+            self.progression_of_evil_phase()
+            if self.is_ended():
+                break
+            
+            self.heroic_action_phase()
+            if self.is_ended():
+                break
+
+    def progression_of_evil_phase(self):
+        ## TEST
+        self.gameboard.round_table.white_swords += 1
+        print self.gameboard.round_table.white_swords
+
+    def heroic_action_phase(self):
+        pass
+
 
 class KnightFactory:
 
@@ -318,14 +265,14 @@ class KnightFactory:
 
 if __name__ == '__main__':
     gameboard = Gameboard()
-    testgame = Game(gameboard, 0)
-    assert(testgame.is_lost())
+    # testgame = Game(gameboard, 0)
+    # assert(testgame.is_lost())
     testgame = Game(gameboard, 4)
-    assert(testgame.is_lost() == False)
-    testgame.gameboard.sieges = 12
-    assert(testgame.is_lost())
-    for k in testgame.knights:
-        print k.name, k.current_position
-    print testgame.deck
-    testgame.start_game()
-    print [x.cards for x in testgame.knights]
+    # assert(testgame.is_lost() == False)
+    # testgame.gameboard.sieges = 12
+    # assert(testgame.is_lost())
+    # for k in testgame.knights:
+    #     print k.name, k.current_position
+    # print testgame.deck
+    testgame.play()
+    # print [x.cards for x in testgame.knights]
