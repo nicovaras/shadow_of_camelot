@@ -4,140 +4,17 @@ from knight import Knight
 from constants import *
 
 
-class Deck:
 
-    def __init__(self):
-        self.white_cards = CardFactory.WhiteCards()
-        self.black_cards = CardFactory.BlackCards()
-        self.shuffle_all()
-
-    def shuffle_all(self):
-        random.shuffle(self.black_cards)
-        random.shuffle(self.white_cards)
-
-    def pick_card_with(self, name, color):
-        card = self.search_one_card_with(name, color)
-        self.remove_card(card, color)
-        return card
-
-    def pick_next(self, color):
-        if color == 'white':
-            card = self.white_cards[0]
-        else:
-            card = self.remove_cards[0]
-        self.remove_card(card, color)
-        return card
-
-    def remove_card(self, card, color):
-        if color == 'white':
-            index = self.white_cards.index(card)
-            self.white_cards = self.white_cards[:index] + self.white_cards[index+1:]
-        else:
-            index = self.black_cards.index(card)
-            self.black_cards = self.black_cards[:index] + self.black_cards[index+1:]
-
-    def search_one_card_with(self, name, color):
-        all_cards = self.search_all_cards_with(name, color)
-        if all_cards:
-            return all_cards[0]
-        else:
-            return []
-
-    def search_all_cards_with(self, name, color):
-        if color == 'white':
-            return [card for card in self.white_cards if card.name == name]
-        else:
-            return [card for card in self.black_cards if card.name == name]
-
-
-    def __str__(self):
-        return '\n'.join(map(str, self.white_cards + self.black_cards))
 
 
 class CardSpot:
     pass
 
 
-class CardFactory:
-
-    @staticmethod
-    def WhiteCards():
-        cards = []
-        for _ in range(14):
-            cards.append(Card('fight', 'white', 'standard'))
-        for _ in range(12):
-            cards.append(Card('fight', 'white', 'standard'))
-        for _ in range(10):
-            cards.append(Card('fight', 'white', 'standard'))
-        for _ in range(8):
-            cards.append(Card('fight', 'white', 'standard'))
-        for _ in range(7):
-            cards.append(Card('fight', 'white', 'standard'))
-        for _ in range(18):
-            cards.append(Card('grail', 'white', 'standard'))
-
-        for _ in range(7):
-            cards.append(Card('merlin', 'white', 'special'))
-        cards.append(Card('piety', 'white', 'special'))
-        cards.append(Card('fate', 'white', 'special'))
-        cards.append(Card('heroism', 'white', 'special'))
-        cards.append(Card('reinforcements', 'white', 'special'))
-        cards.append(Card('messenger', 'white', 'special'))
-        cards.append(Card('lady_of_the_lake', 'white', 'special'))
-        cards.append(Card('convocation', 'white', 'special'))
-        cards.append(Card('clairvoyance', 'white', 'special'))
-        return cards
-
-    @staticmethod
-    def BlackCards():
-        cards = []
-        for _ in range(5):
-            cards.append(Card('black_knight', 'black', 'standard'))
-        for _ in range(3):
-            cards.append(Card('black_knight', 'black', 'standard'))
-        for _ in range(2):
-            cards.append(Card('black_knight', 'black', 'standard'))
-        cards.append(Card('black_knight', 'black', 'standard'))
-        for _ in range(4):
-            cards.append(Card('lancelot_dragon', 'black', 'standard'))
-        for _ in range(3):
-            cards.append(Card('lancelot_dragon', 'black', 'standard'))
-        for _ in range(3):
-            cards.append(Card('lancelot_dragon', 'black', 'standard'))
-        cards.append(Card('lancelot_dragon', 'black', 'standard'))
-        for _ in range(15):
-            cards.append(Card('despair', 'black', 'standard'))
-        for _ in range(4):
-            cards.append(Card('mercenaries', 'black', 'standard'))
-        for _ in range(4):
-            cards.append(Card('picts', 'black', 'standard'))
-        for _ in range(4):
-            cards.append(Card('saxons', 'black', 'standard'))
-
-        cards.append(Card('dark_forest', 'black', 'special'))
-        cards.append(Card('desolation', 'black', 'special'))
-        cards.append(Card('desolation', 'black', 'special'))
-        cards.append(Card('vivien', 'black', 'special'))
-        cards.append(Card('mists_of_avalon', 'black', 'special'))
-        cards.append(Card('guineviere', 'black', 'special'))
-        cards.append(Card('morgan1', 'black', 'special'))
-        cards.append(Card('morgan2', 'black', 'special'))
-        cards.append(Card('morgan3', 'black', 'special'))
-        cards.append(Card('morgan4', 'black', 'special'))
-        cards.append(Card('morgan5', 'black', 'special'))
-        cards.append(Card('mordred', 'black', 'special'))
-        return cards
 
 
-class Card:
 
-    def __init__(self, name, color, type):
-        self.name = name
-        self.color = color
-        self.type = type
 
-    def __repr__(self):
-        return self.name + "," + self.color + "," + self.type
 
 
 
