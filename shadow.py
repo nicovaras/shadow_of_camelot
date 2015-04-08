@@ -2,37 +2,12 @@ import random
 from gameboard import Gameboard 
 from knight import Knight
 from constants import *
-
-
-
-
-
-class CardSpot:
-    pass
-
-
-
-
-
-
-
-
-
-class SpecialPower:
-
-    def __init__(self):
-        pass
-
-
-class SiegeEngine:
-    pass
-
+from deck import Deck
+from knight_factory import KnightFactory
 
 class Relic:
-
     def __init__(self):
         self.power = None
-
 
 class Armor(Relic):
     pass
@@ -52,6 +27,7 @@ class Game:
         self.gameboard = gameboard
         self.knights = self.init_knights(num_players)
         self.deck = Deck()
+        self.current_turn = 0
 
     def init_knights(self, num_players):
         available_knights = [KnightFactory.Arthur(), KnightFactory.Gawain(),
@@ -86,70 +62,36 @@ class Game:
     def play(self):
         self.start_game()
         while True:
-            self.progression_of_evil_phase()
+            current_knight = self.next_knight_turn()
+            self.progression_of_evil_phase(current_knight)
             if self.is_ended():
                 break
             
-            self.heroic_action_phase()
+            self.heroic_action_phase(current_knight)
             if self.is_ended():
                 break
 
-    def progression_of_evil_phase(self):
-        ## TEST
-        self.gameboard.round_table.white_swords += 1
-        print self.gameboard.round_table.white_swords
+    def next_knight_turn(self):
+        next = self.knights[self.current_turn]
+        self.current_turn = (self.current_turn + 1) % len(self.knights)
+        return next
 
-    def heroic_action_phase(self):
+
+    def progression_of_evil_phase(self, knight):
+        action = knight.choose_evil_action()
+        if action == BLACK_CARD_ACTION:
+            card = self.deck.pick_next('black')
+        elif action == SIEGE_ACTION:
+            self.gameboard.sieges += 1
+        elif action == LOSE_LIFE_ACTION:
+            knight.life -= 1
+
+    def heroic_action_phase(self, knight):
         pass
 
 
-class KnightFactory:
-
-    @staticmethod
-    def Arthur():
-        knight = Knight("Arthur")
-        return knight
-
-    @staticmethod
-    def Gawain():
-        knight = Knight("Gawain")
-        return knight
-
-    @staticmethod
-    def Galahad():
-        knight = Knight("Galahad")
-        return knight
-
-    @staticmethod
-    def Kay():
-        knight = Knight("Kay")
-        return knight
-
-    @staticmethod
-    def Palamedes():
-        knight = Knight("Palamedes")
-        return knight
-
-    @staticmethod
-    def Percival():
-        knight = Knight("Percival")
-        return knight
-
-    @staticmethod
-    def Tristan():
-        knight = Knight("Tristan")
-        return knight
 
 if __name__ == '__main__':
     gameboard = Gameboard()
-    # testgame = Game(gameboard, 0)
-    # assert(testgame.is_lost())
     testgame = Game(gameboard, 4)
-    # assert(testgame.is_lost() == False)
-    # testgame.gameboard.sieges = 12
-    # assert(testgame.is_lost())
-    # for k in testgame.knights:
-    #     print k.name, k.current_position
-    # print testgame.deck
     testgame.play()
-    # print [x.cards for x in testgame.knights]

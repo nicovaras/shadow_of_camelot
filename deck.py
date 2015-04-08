@@ -22,7 +22,7 @@ class Deck:
         if color == 'white':
             card = self.white_cards[0]
         else:
-            card = self.remove_cards[0]
+            card = self.black_cards[0]
         self.remove_card(card, color)
         return card
 
