@@ -6,8 +6,8 @@ class TestGameboard(unittest.TestCase):
 
     def test_move(self):
         k = knight.Knight("test")
-        self.assertTrue(k.current_position == None)
         testboard = gameboard.Gameboard()
+        self.assertTrue(testboard.current_positions == {})
         testboard.move(k, "test_position")
-        self.assertTrue(k.current_position == "test_position")
+        self.assertTrue(testboard.current_positions[k] == "test_position")
 

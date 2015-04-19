@@ -87,7 +87,15 @@ class Game:
             knight.life -= 1
 
     def heroic_action_phase(self, knight):
-        pass
+        action = knight.choose_heroic_action()
+        if action == MOVE_ACTION:
+            knight.choose_new_location(self.gameboard.current_positions)
+        elif action == CURRENT_QUEST_ACTION:
+            pass
+        elif action == SPECIAL_CARD_ACTION:
+            pass
+        elif action == HEAL_ACTION:
+            pass
 
 
 

@@ -15,7 +15,7 @@ class TestGame(unittest.TestCase):
         knights = self.g.init_knights(7)
         self.assertEquals(7, len(knights))
         for k in knights:
-            self.assertEquals(ROUNDTABLE, k.current_position)
+            self.assertEquals(ROUNDTABLE, self.g.gameboard.current_positions[k])
 
     def test_is_lost(self):
         self.assertFalse(self.g.is_lost())

@@ -9,9 +9,10 @@ class Gameboard:
         self.quests = [QuestFactory.Excalibur(),
                        QuestFactory.HolyGrail(),
                        QuestFactory.Lancelot()]
+        self.current_positions = {}
 
     def has_black_sword_majority(self):
         return self.round_table.black_swords >= 7
 
     def move(self, knight, position):
-        knight.current_position = position
+        self.current_positions[knight] = position
