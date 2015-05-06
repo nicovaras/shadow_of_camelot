@@ -95,7 +95,11 @@ class Game:
         elif action == SPECIAL_CARD_ACTION:
             pass
         elif action == HEAL_ACTION:
-            pass
+            three_cards = knight.get_all_three_equal_cards()
+            if three_cards:
+                knight.choose_and_discard_three(three_cards)
+                knight.life = min(6, knight.life + 1)
+
 
 
 

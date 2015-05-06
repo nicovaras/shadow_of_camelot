@@ -1,6 +1,7 @@
 import deck
 import unittest 
 import shadow
+from card import Card
 from gameboard import Gameboard
 from constants import *
 from mock import MagicMock
@@ -71,3 +72,24 @@ class TestGame(unittest.TestCase):
         knight.choose_evil_action = MagicMock(return_value=LOSE_LIFE_ACTION)
         self.g.progression_of_evil_phase(knight)
         self.assertEquals(3, knight.life)
+    
+    def test_heroic_action(self):
+        knight = self.g.knights[0]
+        knight.cards = [Card('test', 'white', 'standard')] * 12      
+        self.assertEquals(knight.life, 4)
+        knight.choose_heroic_action = MagicMock(return_value=HEAL_ACTION)
+        self.g.heroic_action_phase(knight)
+        self.assertEquals(len(knight.cards), 9)
+        self.assertEquals(knight.life, 5)
+        self.g.heroic_action_phase(knight)
+        self.assertEquals(len(knight.cards), 6)
+        self.assertEquals(knight.life, 6)
+        self.g.heroic_action_phase(knight)
+        self.assertEquals(len(knight.cards), 3)
+        self.assertEquals(knight.life, 6)
+        self.g.heroic_action_phase(knight)
+        self.assertEquals(len(knight.cards), 0)
+        self.assertEquals(knight.life, 6)
+        self.g.heroic_action_phase(knight)
+        self.assertEquals(len(knight.cards), 0)
+        self.assertEquals(knight.life, 6)

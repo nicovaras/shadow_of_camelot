@@ -2,6 +2,10 @@ ROUNDTABLE = "round_table"
 EXCALIBUR = "excalibur"
 HOLYGRAIL = "holy_grail"
 LANCELOT = "lancelot"
+DRAGON = "dragon"
+BLACK_KNIGHT = "black_knight"
+PICTS = "picts"
+SAXONS = "saxons"
 
 BLACK_CARD_ACTION = 'black_card_action'
 SIEGE_ACTION = 'siege_action'
